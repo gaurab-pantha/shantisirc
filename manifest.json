@@ -1,5 +1,24 @@
 {
-  "gallery": [],
+  "gallery": [
+    "20261018092412 d1ee19a2 16f9 4b5a a8ee f0869bca041b.jpg",
+    "20261018092415 f7b68c4f 7dfb 4dfe 9da9 58995adec493.jpg",
+    "20261018092417 ea0c5baa 204a 4945 9d12 2faa3c4e5247.jpg",
+    "20261018092420 5bddf5bb c947 4fda b42f 7af499e88c09.jpg",
+    "20261018092422 0e36c1a4 998e 40b2 8572 a2af416f2bf9.jpg",
+    "20261018092425 f775ca40 49b1 4e2f b9a0 c919f6e2f925.jpg",
+    "20261018092427 7c0320b8 b9d1 4247 b190 4b86ab4ad0f4.jpg",
+    "20261018092429 df512179 efa7 4671 8b20 38c87a466c02.jpg",
+    "20261018092431 cd7fd0be 7ecc 4ff8 8dfb 1b665d90ccf4.jpg",
+    "20261018092434 1e560ce2 0961 4968 b16d d6bb745b1831.jpg",
+    "20261018092436 a2c2d8a6 cbdc 48f5 b4f3 6c0ac73d7ca9.jpg",
+    "20261018092438 8754746f f2b3 467f 9628 a94d4a52f62a.jpg",
+    "20261018092442 289e66cf 819c 4200 ae87 3d12141c984b.jpg",
+    "20261018092444 8fd58593 7628 4a9c ae3e 6a9d8652e4f2.jpg",
+    "20261018092446 cad session.jpg",
+    "20261018092448 19fcaa63 f551 4765 a04c 63d889c0ad3e.jpg",
+    "20261018092451 4514a955 64aa 429e a596 4fd9171ff8ad.jpg",
+    "20261018092453 52b6d7de 0c98 4310 87cf 96943b9f5ff4.jpg"
+  ],
   "news": [],
   "projects": [
     "Aviation.jpg",
@@ -15,7 +34,6 @@
     "Robo Soccer.jpg",
     "Robo Soccer.txt",
     "Web Development Competition.jpg",
-    "Web Development Competition.txt",
-    "robotics.jpg"
+    "Web Development Competition.txt"
   ]
 }
