@@ -157,6 +157,8 @@ async function freeName(dir, base, ext) {      // never overwrite an existing it
   let n = base, i = 2; while (have.has((n + ext).toLowerCase()) || have.has((n + ".txt").toLowerCase()) && ext !== ".txt") n = `${base} ${i++}`;
   return n;
 }
+const stampNow = (offsetSec = 0) => { const d = new Date(Date.now() + offsetSec * 1000), p = (n, l = 2) => String(n).padStart(l, "0"); return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`; };
+const shown = k => k.replace(/^\d{14}[ _]+/, "");
 const busy = (b, on) => b.disabled = on;
 
 /* ---- sign in ---- */
@@ -192,11 +194,11 @@ $("#pGo").onclick = async () => {
   if (!t || !body) return say("#pMsg", "err", "Please write a title and a description.");
   busy($("#pGo"), true); say("#pMsg", "info", "Publishing…");
   try {
-    const n = await freeName("projects", t, ".txt");
+    const n = await freeName("projects", `${stampNow()} ${t}`, ".txt");
     if (f) await put(`projects/${n}.jpg`, await b64file(f), "Add project photo: " + n);
     await put(`projects/${n}.txt`, b64text(body + "\n"), "Add project: " + n);
     await syncManifest();
-    say("#pMsg", "ok", `Done! "${n}" is published. It shows on the Projects page in about a minute.`);
+    say("#pMsg", "ok", `Done! "${t}" is published. It shows on the Projects page in about a minute.`);
     $("#pTitle").value = $("#pText").value = $("#pImg").value = "";
   } catch (e) { say("#pMsg", "err", "Could not publish: " + e.message); } busy($("#pGo"), false);
 };
@@ -234,7 +236,7 @@ $("#gGo").onclick = async () => {
     let n = 0;
     for (let i = 0; i < files.length; i++) {
       say("#gMsg", "info", `Uploading photo ${i + 1} of ${files.length}…`);
-      const name = await freeName("gallery", clean(caps[i].value) || "photo", ".jpg");
+      const name = await freeName("gallery", `${stampNow(files.length - i)} ${clean(caps[i].value) || "photo"}`, ".jpg");
       await put(`gallery/${name}.jpg`, await b64file(files[i]), "Add gallery photo: " + name); n++;
     }
     await syncManifest();
@@ -257,12 +259,12 @@ async function showList(folder) {
       const row = document.createElement("div"); row.className = "item";
       const pic = fs.find(f => /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name));
       if (pic) { const im = document.createElement("img"); im.src = pic.download_url; im.alt = ""; row.append(im); }
-      const s = document.createElement("span"); s.textContent = k; row.append(s);
+      const s = document.createElement("span"); s.textContent = shown(k); row.append(s);
       const b = document.createElement("button"); b.className = "danger"; b.textContent = "Delete"; b.type = "button";
       b.onclick = async () => {
-        if (!confirm(`Delete "${k}" from the website?`)) return;
+        if (!confirm(`Delete "${shown(k)}" from the website?`)) return;
         b.disabled = true;
-        try { for (const f of fs) await del(f, "Delete " + f.name); await syncManifest(); row.remove(); say("#mMsg", "ok", `Deleted "${k}". The site updates in about a minute.`); }
+        try { for (const f of fs) await del(f, "Delete " + f.name); await syncManifest(); row.remove(); say("#mMsg", "ok", `Deleted "${shown(k)}". The site updates in about a minute.`); }
         catch (e) { say("#mMsg", "err", "Could not delete: " + e.message); b.disabled = false; }
       };
       row.append(b); box.append(row);
