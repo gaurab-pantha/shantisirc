@@ -1,0 +1,4 @@
+Add a project by creating a text file in this folder.
+File name: Line Follower Robot.txt   (the file name is the project title)
+Inside the file: write a short description. Optional: upload a photo with the same name, like "Line Follower Robot.jpg".
+(Files starting with an underscore, like this one, are ignored by the website.)

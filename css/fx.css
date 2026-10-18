@@ -1,0 +1,33 @@
+/* SSIRC – effects: loading screen, reveal, marquee */
+.boot{position:fixed;inset:0;z-index:999;background:var(--bg);display:grid;place-items:center;transition:opacity .6s,visibility .6s}
+.boot.done{opacity:0;visibility:hidden}
+.boot-in{text-align:center;width:min(320px,80vw)}
+.boot-logo{position:relative;width:150px;height:150px;margin:0 auto 1.5rem;display:grid;place-items:center}
+.boot-logo img{width:100px;border-radius:50%;animation:pulse 1.6s ease-in-out infinite}
+.boot-logo i{position:absolute;inset:0;border-radius:50%;border:2px dashed var(--teal);animation:spin 6s linear infinite}
+.boot-logo i+i{inset:12px;border-style:solid;border-color:var(--line) transparent var(--teal) transparent;animation-duration:2.4s;animation-direction:reverse}
+.boot h2{font-size:2rem}.boot h2::after{display:none}
+.boot p{font:500 .85rem ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:.6rem 0 1rem;min-height:1.4em}
+.boot-bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--yel))}
+.boot b{display:block;margin-top:.8rem;font:700 1.4rem var(--h);color:var(--teal)}
+html.booting{overflow:hidden}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.07);filter:drop-shadow(0 0 22px var(--teal))}}
+
+html.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+html.js .rv.in{opacity:1;transform:none}
+
+.marq{overflow:hidden;border-block:1px solid var(--line);background:color-mix(in srgb,var(--bg2) 85%,transparent);padding:1rem 0}
+.marq-in{display:flex;gap:3rem;width:max-content;animation:marq 38s linear infinite}
+.marq:hover .marq-in{animation-play-state:paused}
+.marq span{font:700 1.15rem var(--h);color:var(--muted);white-space:nowrap}
+.marq span::before{content:"◆";color:var(--teal);margin-right:3rem;font-size:.7rem;vertical-align:middle}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  html.js .rv{opacity:1;transform:none}
+  .boot{display:none}
+}

@@ -1,0 +1,4 @@
+Put your photos in this folder. They appear on the website's Gallery automatically.
+The file name becomes the caption: "robotics-workshop.jpg" shows as "Robotics workshop".
+Tip: resize big phone photos to about 1600 pixels wide so the page loads fast.
+(Files starting with an underscore, like this one, are ignored by the website.)

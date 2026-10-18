@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SSIRC Admin</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+:root{--bg:#06121e;--card:#0b1d2e;--line:#1b3550;--txt:#e8f3f2;--muted:#8fa7b8;--teal:#2fe3cc;--yel:#f5e90a;--red:#ff6b6b;--on:#04141f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.5 system-ui,Segoe UI,Roboto,sans-serif;min-height:100vh}
+.wrap{max-width:820px;margin:0 auto;padding:1.2rem 16px 4rem}
+header{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+header img{width:44px;height:44px;border-radius:50%}
+h1{font-size:1.3rem;margin:0}h1 small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.right{margin-left:auto;display:flex;gap:.5rem;align-items:center;font-size:.85rem;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.2rem;margin-bottom:1rem}
+label{display:block;font-size:.85rem;color:var(--muted);margin:.8rem 0 .25rem}
+input[type=text],input[type=password],input[type=date],textarea{width:100%;background:#071827;border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:.65rem .8rem;font:inherit}
+textarea{min-height:130px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--teal);border-color:transparent}
+button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:.65rem 1.3rem;font-weight:700;background:var(--teal);color:var(--on)}
+button.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+button.danger{background:transparent;color:var(--red);border:1px solid var(--red);padding:.3rem .8rem;font-size:.8rem}
+button:disabled{opacity:.5;cursor:wait}
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.tabs button{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.tabs button[aria-selected=true]{background:var(--teal);color:var(--on);border-color:var(--teal)}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.msg{margin-top:.9rem;padding:.7rem .9rem;border-radius:10px;font-size:.9rem;display:none;white-space:pre-wrap}
+.msg.ok{display:block;background:#0e3a30;color:#9ff5df}.msg.err{display:block;background:#40181c;color:#ffb3b3}.msg.info{display:block;background:#10283d;color:#bcd7ee}
+.hint{color:var(--muted);font-size:.82rem;margin:.3rem 0 0}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem;margin-top:.8rem}
+.thumb{background:#071827;border:1px solid var(--line);border-radius:12px;padding:.4rem}
+.thumb img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block}
+.thumb input{margin-top:.4rem;padding:.35rem .5rem;font-size:.8rem}
+.item{display:flex;align-items:center;gap:.7rem;padding:.55rem 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}.item img{width:54px;height:40px;object-fit:cover;border-radius:6px;background:#071827}
+.item span{flex:1;word-break:break-word}.item small{color:var(--muted);display:block}
+a{color:var(--teal)}code{background:#071827;padding:.1rem .35rem;border-radius:6px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="logo.png" alt=""><h1>SSIRC Admin<small>Add projects, photos and news to the website</small></h1>
+<div class="right" id="who" hidden><span id="whoName"></span><button class="ghost" id="logout" type="button">Sign out</button></div></header>
+
+<!-- sign in -->
+<section class="card" id="login">
+  <h2 style="margin-top:0">Sign in</h2>
+  <p class="hint" style="margin-top:0">Only people who have write access to the website's GitHub repository can use this page. Paste your personal access token below (how to get one is in the README, "Admin page").</p>
+  <label for="repoBox">Website repository (owner/name)</label>
+  <input type="text" id="repoBox" autocomplete="off" placeholder="shantisirc/shantisirc.github.io">
+  <label for="tok">Access token</label>
+  <input type="password" id="tok" autocomplete="off" placeholder="github_pat_…">
+  <label style="display:flex;gap:.5rem;align-items:center;color:var(--txt)"><input type="checkbox" id="remember"> Remember me on this device</label>
+  <div class="row"><button id="signin" type="button">Sign in</button></div>
+  <div class="msg" id="loginMsg"></div>
+</section>
+
+<!-- app -->
+<div id="app" hidden>
+  <div class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-t="project" aria-selected="true">+ Project</button>
+    <button role="tab" data-t="gallery" aria-selected="false">+ Gallery photos</button>
+    <button role="tab" data-t="news" aria-selected="false">+ News / event</button>
+    <button role="tab" data-t="manage" aria-selected="false">Manage / delete</button>
+  </div>
+
+  <section class="card" data-p="project">
+    <h2 style="margin-top:0">Add a project</h2>
+    <label for="pTitle">Project title</label><input type="text" id="pTitle" placeholder="Line Follower Robot">
+    <label for="pText">Description</label><textarea id="pText" placeholder="What is it, who built it, what did you learn?"></textarea>
+    <label for="pImg">Photo (optional)</label><input type="file" id="pImg" accept="image/*">
+    <div class="row"><button id="pGo" type="button">Publish project</button></div><div class="msg" id="pMsg"></div>
+  </section>
+
+  <section class="card" data-p="gallery" hidden>
+    <h2 style="margin-top:0">Add gallery photos</h2>
+    <label for="gImg">Choose one or many photos</label><input type="file" id="gImg" accept="image/*" multiple>
+    <p class="hint">The caption below each photo is what visitors see. Big phone photos are shrunk automatically.</p>
+    <div class="thumbs" id="gThumbs"></div>
+    <div class="row"><button id="gGo" type="button">Publish photos</button></div><div class="msg" id="gMsg"></div>
+  </section>
+
+  <section class="card" data-p="news" hidden>
+    <h2 style="margin-top:0">Add a news post or event</h2>
+    <label for="nDate">Date</label><input type="date" id="nDate">
+    <label for="nTitle">Title</label><input type="text" id="nTitle" placeholder="Robotics workshop">
+    <label for="nText">Text</label><textarea id="nText" placeholder="What happened or what is coming up?"></textarea>
+    <label for="nImg">Photo (optional)</label><input type="file" id="nImg" accept="image/*">
+    <div class="row"><button id="nGo" type="button">Publish post</button></div><div class="msg" id="nMsg"></div>
+    <p class="hint">Posts from the Facebook page are added to News automatically if the Facebook sync is switched on (see README).</p>
+  </section>
+
+  <section class="card" data-p="manage" hidden>
+    <h2 style="margin-top:0">Manage</h2>
+    <div class="row" style="margin-top:0"><button class="ghost" data-f="projects" type="button">Projects</button><button class="ghost" data-f="gallery" type="button">Gallery</button><button class="ghost" data-f="news" type="button">News</button></div>
+    <div id="list" style="margin-top:.8rem"></div><div class="msg" id="mMsg"></div>
+  </section>
+  <p class="hint">The website updates about a minute after you publish. Press Ctrl+F5 on the site to see it.</p>
+</div>
+</div>
+
+<script src="js/data.js"></script>
+<script>
+(() => {
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const cfg = (window.SSIRC && SSIRC.repo) || {};
+let repoFull = (cfg.owner || "") + "/" + (cfg.repo || ""), branch = cfg.branch || "", token = "";
+const API = "https://api.github.com";
+const say = (id, cls, t) => { const m = $(id); m.className = "msg " + cls; m.textContent = t; };
+const clean = s => s.replace(/[\\/:*?"<>|#%\u0000-\u001f]/g, " ").replace(/\s+/g, " ").trim().slice(0, 80);
+const enc = p => p.split("/").map(encodeURIComponent).join("/");
+const tick = ms => new Promise(r => setTimeout(r, ms));
+
+async function gh(method, path, body) {
+  const r = await fetch(API + path, { method, headers: { Accept: "application/vnd.github+json", Authorization: "Bearer " + token, ...(body ? { "Content-Type": "application/json" } : {}) }, body: body ? JSON.stringify(body) : undefined });
+  if (r.status === 204) return {};
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(j.message || r.statusText); e.status = r.status; throw e; }
+  return j;
+}
+const q = () => branch ? "?ref=" + encodeURIComponent(branch) : "";
+const getFile = async p => { try { return await gh("GET", `/repos/${repoFull}/contents/${enc(p)}${q()}`); } catch (e) { if (e.status === 404) return null; throw e; } };
+async function listDir(p) { try { return (await gh("GET", `/repos/${repoFull}/contents/${enc(p)}${q()}`)).filter(f => f.type === "file" && !f.name.startsWith("_") && f.name !== "index.html"); } catch (e) { if (e.status === 404) return []; throw e; } }
+async function put(p, b64, msg) {
+  for (let i = 0; i < 3; i++) {
+    const cur = await getFile(p);
+    try { return await gh("PUT", `/repos/${repoFull}/contents/${enc(p)}`, { message: msg, content: b64, ...(cur ? { sha: cur.sha } : {}), ...(branch ? { branch } : {}) }); }
+    catch (e) { if ((e.status === 409 || e.status === 422) && i < 2) { await tick(800); continue; } throw e; }
+  }
+}
+async function del(f, msg) { return gh("DELETE", `/repos/${repoFull}/contents/${enc(f.path)}`, { message: msg, sha: f.sha, ...(branch ? { branch } : {}) }); }
+const b64text = s => { const b = new TextEncoder().encode(s); let x = ""; b.forEach(c => x += String.fromCharCode(c)); return btoa(x); };
+async function b64file(file, max = 1600) {
+  const url = URL.createObjectURL(file), img = new Image();
+  await new Promise((ok, no) => { img.onload = ok; img.onerror = () => no(new Error("Could not read the photo: " + file.name)); img.src = url; });
+  const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement("canvas");
+  c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+  URL.revokeObjectURL(url);
+  const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .85)), buf = new Uint8Array(await blob.arrayBuffer());
+  let s = ""; for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+async function syncManifest() {      // keeps manifest.json (backup list used by the website) up to date
+  const out = {};
+  for (const f of ["gallery", "news", "projects"]) out[f] = (await listDir(f)).map(x => x.name).sort();
+  await put("manifest.json", b64text(JSON.stringify(out, null, 2) + "\n"), "Update file list");
+}
+async function freeName(dir, base, ext) {      // never overwrite an existing item
+  const have = new Set((await listDir(dir)).map(f => f.name.toLowerCase()));
+  let n = base, i = 2; while (have.has((n + ext).toLowerCase()) || have.has((n + ".txt").toLowerCase()) && ext !== ".txt") n = `${base} ${i++}`;
+  return n;
+}
+const busy = (b, on) => b.disabled = on;
+
+/* ---- sign in ---- */
+async function signin(auto) {
+  repoFull = $("#repoBox").value.trim().replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, ""); token = $("#tok").value.trim();
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repoFull) || !token) return say("#loginMsg", "err", "Enter the repository (owner/name) and your token.");
+  say("#loginMsg", "info", "Checking…");
+  try {
+    const u = await gh("GET", "/user"), r = await gh("GET", "/repos/" + repoFull);
+    if (!r.permissions || !r.permissions.push) throw new Error("This account is not allowed to edit the website (needs write access to " + repoFull + ").");
+    if (!branch) branch = r.default_branch;
+    $("#whoName").textContent = u.login; $("#who").hidden = false; $("#login").hidden = true; $("#app").hidden = false;
+    try { if ($("#remember").checked) localStorage.setItem("ssirc-admin", JSON.stringify({ repoFull, token })); } catch (e) {}
+    $("#loginMsg").className = "msg";
+  } catch (e) { token = ""; say("#loginMsg", "err", e.status === 401 ? "That token is not valid or has expired." : e.message); }
+}
+$("#signin").onclick = () => signin();
+$("#logout").onclick = () => { try { localStorage.removeItem("ssirc-admin"); } catch (e) {} location.reload(); };
+$("#repoBox").value = repoFull.length > 1 ? repoFull : "";
+try { const s = JSON.parse(localStorage.getItem("ssirc-admin")); if (s) { $("#repoBox").value = s.repoFull; $("#tok").value = s.token; $("#remember").checked = true; signin(true); } } catch (e) {}
+
+/* ---- tabs ---- */
+$$("#tabs button").forEach(b => b.onclick = () => {
+  $$("#tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  $$("[data-p]").forEach(s => s.hidden = s.dataset.p !== b.dataset.t);
+  if (b.dataset.t === "manage") showList(curFolder);
+});
+$("#nDate").value = new Date().toISOString().slice(0, 10);
+
+/* ---- project ---- */
+$("#pGo").onclick = async () => {
+  const t = clean($("#pTitle").value), body = $("#pText").value.trim(), f = $("#pImg").files[0];
+  if (!t || !body) return say("#pMsg", "err", "Please write a title and a description.");
+  busy($("#pGo"), true); say("#pMsg", "info", "Publishing…");
+  try {
+    const n = await freeName("projects", t, ".txt");
+    if (f) await put(`projects/${n}.jpg`, await b64file(f), "Add project photo: " + n);
+    await put(`projects/${n}.txt`, b64text(body + "\n"), "Add project: " + n);
+    await syncManifest();
+    say("#pMsg", "ok", `Done! "${n}" is published. It shows on the Projects page in about a minute.`);
+    $("#pTitle").value = $("#pText").value = $("#pImg").value = "";
+  } catch (e) { say("#pMsg", "err", "Could not publish: " + e.message); } busy($("#pGo"), false);
+};
+
+/* ---- news ---- */
+$("#nGo").onclick = async () => {
+  const t = clean($("#nTitle").value), body = $("#nText").value.trim(), d = $("#nDate").value, f = $("#nImg").files[0];
+  if (!t || !body || !d) return say("#nMsg", "err", "Please fill in the date, title and text.");
+  busy($("#nGo"), true); say("#nMsg", "info", "Publishing…");
+  try {
+    const n = await freeName("news", `${d} ${t}`, ".txt");
+    if (f) await put(`news/${n}.jpg`, await b64file(f), "Add news photo: " + n);
+    await put(`news/${n}.txt`, b64text(body + "\n"), "Add news: " + n);
+    await syncManifest();
+    say("#nMsg", "ok", `Done! "${t}" is published on the News & Events page in about a minute.`);
+    $("#nTitle").value = $("#nText").value = $("#nImg").value = "";
+  } catch (e) { say("#nMsg", "err", "Could not publish: " + e.message); } busy($("#nGo"), false);
+};
+
+/* ---- gallery ---- */
+$("#gImg").onchange = () => {
+  const box = $("#gThumbs"); box.replaceChildren();
+  [...$("#gImg").files].forEach(f => {
+    const d = document.createElement("div"); d.className = "thumb";
+    const im = document.createElement("img"); im.src = URL.createObjectURL(f);
+    const i = document.createElement("input"); i.type = "text"; i.value = f.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "); i.setAttribute("aria-label", "Caption");
+    d.append(im, i); box.append(d);
+  });
+};
+$("#gGo").onclick = async () => {
+  const files = [...$("#gImg").files], caps = $$("#gThumbs input");
+  if (!files.length) return say("#gMsg", "err", "Choose at least one photo.");
+  busy($("#gGo"), true);
+  try {
+    let n = 0;
+    for (let i = 0; i < files.length; i++) {
+      say("#gMsg", "info", `Uploading photo ${i + 1} of ${files.length}…`);
+      const name = await freeName("gallery", clean(caps[i].value) || "photo", ".jpg");
+      await put(`gallery/${name}.jpg`, await b64file(files[i]), "Add gallery photo: " + name); n++;
+    }
+    await syncManifest();
+    say("#gMsg", "ok", `Done! ${n} photo${n > 1 ? "s" : ""} added to the Gallery (visible in about a minute).`);
+    $("#gImg").value = ""; $("#gThumbs").replaceChildren();
+  } catch (e) { say("#gMsg", "err", "Could not publish: " + e.message); } busy($("#gGo"), false);
+};
+
+/* ---- manage ---- */
+let curFolder = "projects";
+$$("[data-f]").forEach(b => b.onclick = () => showList(b.dataset.f));
+async function showList(folder) {
+  curFolder = folder; const box = $("#list"); box.textContent = "Loading…";
+  try {
+    const files = await listDir(folder), groups = new Map();
+    files.forEach(f => { const k = f.name.replace(/\.[^.]+$/, ""); (groups.get(k) || groups.set(k, []).get(k)).push(f); });
+    box.replaceChildren();
+    if (!groups.size) box.textContent = "Nothing here yet.";
+    [...groups].sort().reverse().forEach(([k, fs]) => {
+      const row = document.createElement("div"); row.className = "item";
+      const pic = fs.find(f => /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name));
+      if (pic) { const im = document.createElement("img"); im.src = pic.download_url; im.alt = ""; row.append(im); }
+      const s = document.createElement("span"); s.textContent = k; row.append(s);
+      const b = document.createElement("button"); b.className = "danger"; b.textContent = "Delete"; b.type = "button";
+      b.onclick = async () => {
+        if (!confirm(`Delete "${k}" from the website?`)) return;
+        b.disabled = true;
+        try { for (const f of fs) await del(f, "Delete " + f.name); await syncManifest(); row.remove(); say("#mMsg", "ok", `Deleted "${k}". The site updates in about a minute.`); }
+        catch (e) { say("#mMsg", "err", "Could not delete: " + e.message); b.disabled = false; }
+      };
+      row.append(b); box.append(row);
+    });
+  } catch (e) { box.textContent = ""; say("#mMsg", "err", e.message); }
+}
+})();
+</script>
+</body>
+</html>

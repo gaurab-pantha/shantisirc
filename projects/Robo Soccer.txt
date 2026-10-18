@@ -1,0 +1,1 @@
+Robo soccer robots built by SSIRC members. Each robot has a plywood base, four yellow wheels, a microcontroller board, a motor driver, a battery pack and metal arms for pushing the ball.

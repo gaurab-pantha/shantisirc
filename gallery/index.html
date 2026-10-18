@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gallery | Shanti Science, ICT &amp; Robotics Club</title>
+<meta name="description" content="Photos from SSIRC workshops and events.">
+<meta property="og:title" content="Gallery | Shanti Science, ICT &amp; Robotics Club">
+<meta property="og:description" content="Photos from SSIRC workshops and events.">
+<meta property="og:image" content="https://shantisirc.com/logo.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#06121e">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('ssirc-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/fx.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/idcard.css">
+</head>
+<body data-page="gallery">
+<a class="skip" href="#main" onclick="location.hash='main';return false">Skip to content</a>
+<div id="hdr"></div>
+<main id="main">
+<section class="phead"><div class="wrap"><h1>Gallery</h1><p>Moments from our workshops and events. Tap a photo to enlarge it.</p></div></section>
+<section class="sec"><div class="wrap">
+  <div class="gallery" id="gal"></div>
+  <div class="empty" id="galEmpty">Event photos will appear here soon.</div>
+</div></section>
+<section class="sec"><div class="wrap"><div class="band rv"><h2>Ready to build something?</h2><p>Join SSIRC and explore robotics, coding and technology with a team of students who love making things.</p><div class="cta"><a class="btn" data-join>Join the club →</a><a class="btn ghost" href="events/">See our events</a></div></div></div></section>
+</main>
+<div id="ftr"></div>
+<dialog id="lb" aria-label="Photo viewer"><button class="x" id="lbClose" aria-label="Close">Close</button><button class="nv pv" id="lbPrev" aria-label="Previous photo">‹</button><figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure><button class="nv nx" id="lbNext" aria-label="Next photo">›</button></dialog>
+<noscript><p style="padding:1rem;text-align:center">Please turn on JavaScript to see the full SSIRC website. You can still reach us at ssirc.club@gmail.com.</p></noscript>
+<script defer src="js/data.js"></script>
+<script defer src="js/util.js"></script>
+<script defer src="js/layout.js"></script>
+<script defer src="js/fx.js"></script>
+<script defer src="js/gallery.js"></script>
+</body>
+</html>

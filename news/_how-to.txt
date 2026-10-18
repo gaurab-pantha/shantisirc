@@ -1,0 +1,4 @@
+Add a news post by creating a text file in this folder.
+File name: 2026-11-05 Robotics workshop.txt   (date first, then the title)
+Inside the file: write the news text. Optional: upload a photo with the same name, like "2026-11-05 Robotics workshop.jpg".
+(Files starting with an underscore, like this one, are ignored by the website.)

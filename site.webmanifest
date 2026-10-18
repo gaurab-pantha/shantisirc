@@ -1,0 +1,9 @@
+{
+  "name": "Shanti Science, ICT & Robotics Club",
+  "short_name": "SSIRC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06121e",
+  "theme_color": "#06121e",
+  "icons": [{ "src": "logo.png", "sizes": "600x600", "type": "image/png" }]
+}
