@@ -5,7 +5,7 @@
   // Each photo may have a text file with the same name (e.g. "Drone Day.jpg" + "Drone Day.txt"). The text becomes its description.
   S.loadPhotos = () => cache || (cache = (async () => {
     const files = await list("gallery");
-    const imgs = files.filter(n => IMG.test(n)).sort().reverse();
+    const imgs = files.filter(n => IMG.test(n)).sort().reverse().sort(S.u.newestFirst);
     return Promise.all(imgs.map(async n => {
       const t = files.find(f => /\.txt$/i.test(f) && base(f) === base(n));
       return { src: `gallery/${enc(n)}`, cap: pretty(n), desc: t ? await text(`gallery/${enc(t)}`) : "" };

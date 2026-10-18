@@ -33,11 +33,14 @@
     return [];
   }
   const base = n => n.replace(/\.[^.]+$/, "");
-  const pretty = n => { const s = base(n).replace(/[-_]+/g, " ").trim(); return s.charAt(0).toUpperCase() + s.slice(1); };
+  const STAMP = /^(\d{14})[ _]+/;       // files added from the admin page start with a time stamp (newest shown first)
+  const stamp = n => (n.match(STAMP) || [])[1] || "", unstamp = n => n.replace(STAMP, "");
+  const newestFirst = (a, b) => (stamp(b) > stamp(a)) - (stamp(b) < stamp(a));      // stamped files first, newest first; the rest keep their order
+  const pretty = n => { const s = unstamp(base(n)).replace(/[-_]+/g, " ").trim(); return s.charAt(0).toUpperCase() + s.slice(1); };
   const el = (tag, cls, text) => { const x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; };
   const text = async p => { try { const r = await fetch(p); return r.ok ? (await r.text()).trim() : ""; } catch (e) { return ""; } };
   const fmtDate = s => new Date(s + "T00:00:00").toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
   const $ = (s, r = document) => r.querySelector(s);
 
-  S.u = { enc, IMG, list, base, pretty, el, text, fmtDate, $ };
+  S.u = { enc, IMG, list, base, pretty, stamp, unstamp, newestFirst, el, text, fmtDate, $ };
 })();
