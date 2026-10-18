@@ -1,0 +1,21 @@
+name: Facebook sync
+on:
+  schedule: [{ cron: "15 */3 * * *" }]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python tools/fb-sync.py
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      - run: python tools/make-manifest.py
+      - name: Save new posts
+        run: |
+          git config user.name "ssirc-bot"; git config user.email "bot@users.noreply.github.com"
+          git add -A news manifest.json
+          git diff --cached --quiet || (git commit -m "Add new Facebook posts" && git push)
