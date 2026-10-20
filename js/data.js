@@ -58,7 +58,7 @@ window.SSIRC = {
   school: { name: "Shree Shanti Namuna Secondary School", address: "Tilottama-5, Manigram, Rupandehi, Nepal" },
 
   /* GitHub repository that holds this website (used to read the gallery, news and projects folders) */
-  repo: { owner: "shantisirc", repo: "shantisirc.github.io", branch: "" },
+  repo: { owner: "gaurab-pantha", repo: "shantisirc", branch: "main" },
 
   /* Board of Directors. "id" is the number printed on the ID card. */
   board: [
