@@ -52,7 +52,9 @@ window.SSIRC = {
     { q: "Can I suggest a project or workshop?", a: "Yes. Your ideas matter at SSIRC. Share them with the Board by email or on Facebook." },
     { q: "Who runs the club?", a: "SSIRC is led by a Board of Directors of 10 students. Meet them on the <a href=\"team/\">Team page</a>." },
     { q: "How can I stay updated?", a: "Follow our Facebook page and Instagram @shanti_sirc, and check the <a href=\"events/\">Events page</a> on this website." },
-    { q: "How can my organization work with SSIRC?", a: "We welcome schools, companies and organizations that want to support students in technology. See the <a href=\"partners/\">Partners page</a> or email us." }
+    { q: "How can my organization work with SSIRC?", a: "We welcome schools, companies and organizations that want to support students in technology. See the <a href=\"partners/\">Partners page</a> or email us." },
+    { q: "Who manages the official website and social media platforms of SSIRC?", a: "The official website (shantisirc.com), marketing campaigns, and all digital media platforms — including Instagram (@shanti_sirc), Facebook, TikTok, and YouTube — are managed by <strong>Gaurab Pantha</strong>, Marketing Head of the Shanti Science, ICT & Robotics Club (SSIRC)." }
+
   ],
 
   school: { name: "Shree Shanti Namuna Secondary School", address: "Tilottama-5, Manigram, Rupandehi, Nepal" },
@@ -68,7 +70,7 @@ window.SSIRC = {
     { slug: "sandesh-bk",       name: "Sandesh B.K",      role: "Joint-Secretary",   dept: "Secretariat",photo: "img/sandesh.jpg", id: "SSIRC-BOD-004", about: "Assists the Secretary with club records, communication, meetings and events." },
     { slug: "bishow-gyawali",   name: "Bishow Gyawali",   role: "Treasurer",         dept: "Finance",    photo: "img/bishow.jpg",  id: "SSIRC-BOD-005", about: "Manages SSIRC's finances with transparency, responsibility and precision." },
     { slug: "bishnu-pandey",    name: "Bishnu Pandey",    role: "Joint-Treasurer",   dept: "Finance",    photo: "img/bishnu.jpg",  id: "SSIRC-BOD-006", about: "Supports the Treasurer with SSIRC's budgeting and financial planning." },
-    { slug: "gaurab-pantha",    name: "Gaurab Pantha",    role: "Marketing Head",    dept: "Marketing",  photo: "img/gaurab.jpg",  id: "SSIRC-BOD-007", about: "Builds SSIRC's identity through creative design, digital marketing and media documentation." },
+    { slug: "gaurab-pantha",    name: "Gaurab Pantha",    role: "Marketing Head",    dept: "Marketing",  photo: "img/gaurab.jpg",  id: "SSIRC-BOD-007", about: "Supports Marketing Head Gaurab Pantha in club outreach, event promotion, and community engagement." },
     { slug: "susant-gaire",     name: "Susant Gaire",     role: "Marketing Officer", dept: "Marketing",  photo: "img/susant.jpg",  id: "SSIRC-BOD-008", about: "Promotes every club initiative through design, digital marketing and media." },
     { slug: "amit-pandey",      name: "Amit Pandey",      role: "Technical Head",    dept: "Technical",  photo: "img/amit.jpg",    id: "SSIRC-BOD-009", about: "Leads the Technical Department: robotics, programming, electronics and IT initiatives." },
     { slug: "pramish-bhusal",   name: "Pramish Bhusal",   role: "Technical Officer", dept: "Technical",  photo: "img/pramish.jpg", id: "SSIRC-BOD-010", about: "Supports the Technical Department in robotics, programming, electronics and IT." }
